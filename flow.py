@@ -3,7 +3,6 @@ from jina import Flow, Executor, requests
 from docarray import Document, DocumentArray
 import pandas as pd
 import numpy as np
-import pinecone
 from helpers import chunks
 from typing import Dict, Optional
 
