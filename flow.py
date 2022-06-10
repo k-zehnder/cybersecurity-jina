@@ -1,20 +1,18 @@
-import os
 from jina import Flow, Executor, requests
 from docarray import Document, DocumentArray
 import pandas as pd
 import numpy as np
-from helpers import chunks
-from typing import Dict, Optional
 
 
 PATH = "/Users/peppermint/Desktop/codes/python/NetworkIntrusionDetection/embeddings_df.csv"
 
 
 class ITPrepper(Executor):
-    def __init__(self, **kwargs):
+    def __init__(self, path: str, **kwargs):
         super().__init__(**kwargs)
-        self.embeddings_df = pd.read_csv(PATH).iloc[:, :-1]
-        self.label_df = pd.read_csv(PATH).iloc[:, -1]
+        self.path = path
+        self.embeddings_df = pd.read_csv(self.path).iloc[:, :-1]
+        self.label_df = pd.read_csv(self.path).iloc[:, -1]
 
     @requests
     def preprocess(self, docs: DocumentArray, **kwargs):
@@ -44,6 +42,7 @@ f = (
     .add(
         uses=ITPrepper,
         name="ITPrepper",
+        uses_with={"path" : PATH}
     ).add(
         uses=ITIndexer,
         name="ITIndexer",
