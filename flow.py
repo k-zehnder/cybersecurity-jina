@@ -4,21 +4,24 @@ import pandas as pd
 import numpy as np
 
 
-PATH = "/Users/peppermint/Desktop/codes/python/NetworkIntrusionDetection/embeddings_df.csv"
+PATH = "/Users/peppermint/Desktop/codes/python/cybersecurity-jina/data/embeddings_df_with_details.csv"
 
 
 class ITPrepper(Executor):
     def __init__(self, path: str, **kwargs):
         super().__init__(**kwargs)
         self.path = path
-        self.embeddings_df = pd.read_csv(self.path).iloc[:, :-1]
-        self.label_df = pd.read_csv(self.path).iloc[:, -1]
-
+        self.embeddings_df = pd.read_csv(self.path)
+        
     @requests
     def preprocess(self, docs: DocumentArray, **kwargs):
         res_da = DocumentArray()
         for i in range(len(self.embeddings_df)):
-            d = Document(embedding=np.array(self.embeddings_df.iloc[i, :].tolist()), known_label=self.label_df[i])
+            d = Document(
+                embedding=np.array(self.embeddings_df.iloc[i, :128].tolist()), 
+                dt=self.embeddings_df.loc[i, "dt"],
+                known_label=self.embeddings_df.loc[i, "Label"],
+            )
             res_da.append(d)
         return res_da
 

@@ -11,7 +11,7 @@ index.summary()
 attacks_da = index.find({"tags__known_label" : {"$eq" : 1.0}}) # 566
 attacks_da.summary()
 
-benigns_da = index.find({"tags__known_label" : {"$eq" : 0.0}}) #14535
+benigns_da = index.find({"tags__known_label" : {"$eq" : 0.0}}) # 14535
 benigns_da.summary()
 
 
@@ -23,7 +23,7 @@ benign_q = index[0] # known benign
 benign_q.match(index, exclude_self=True)
 benign_q.summary()
 
-yhat = [] # "predictions" aka nearest neigh.
+yhat = [] # "predictions" aka nearest neighbor/brute force
 y_test = [] # expected
 
 for doc in index:
@@ -33,7 +33,7 @@ for doc in index:
     else:
         y_test.append(1.0)
     
-    # these are nearest neighbor which is basically the "prediction" since we have embeddings stored in vector space as opposed to a forward pass through neural network or something
+    # these are nearest neighbor/brute force which is basically the "prediction" since we have embeddings stored in vector space as opposed to a forward pass through neural network or something
     if doc.matches[0].tags.get("known_label") == 0.0:
         yhat.append(0.0)
     else:
