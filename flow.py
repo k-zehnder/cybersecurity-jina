@@ -19,8 +19,10 @@ class ITPrepper(Executor):
         for i in range(len(self.embeddings_df)):
             d = Document(
                 embedding=np.array(self.embeddings_df.iloc[i, :128].tolist()), 
-                dt=self.embeddings_df.loc[i, "dt"],
-                known_label=self.embeddings_df.loc[i, "Label"],
+                tags={
+                    "dt" : self.embeddings_df.loc[i, "dt"],
+                    "known_label" : self.embeddings_df.loc[i, "Label"],
+                }
             )
             res_da.append(d)
         return res_da

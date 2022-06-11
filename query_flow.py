@@ -1,4 +1,3 @@
-from jina import Flow, Executor, requests
 from docarray import Document, DocumentArray
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 
