@@ -16,8 +16,7 @@ def get_preds(index_path):
         else:
             preds.append("Attack")
     return preds
-    # return ["Benign" if d.matches[0].tags.get("known_label") == 0.0 else "Attack" for d in da]
-
+    
 
 if __name__ == '__main__':
     preds = get_preds("index")

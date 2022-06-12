@@ -141,6 +141,5 @@ dual_workspace
 workspace
 *.db
 
-myapp.py
 backup_app.py
 color_backup_app.py
