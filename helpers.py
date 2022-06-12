@@ -21,15 +21,18 @@ def get_data(index_path):
     da = DocumentArray.load(index_path)
     df = da.to_dataframe()
 
-    df["id"] = df["id"].apply(lambda x: x[:8])
+    df["doc_id"] = df["id"].apply(lambda x: x[:8])
     df["datetime"] = df["tags"].apply(lambda x: x.get("dt"))
     df["known_label"] = df["tags"].apply(lambda x: x.get("known_label"))
+    df["port"] = df["tags"].apply(lambda x: int(x.get("port")))
+    df["protocol"] = df["tags"].apply(lambda x: int(x.get("protocol")))
     df["known_label"] = df["known_label"].map(lambda x: "Benign" if x == 0.0 else "Attack")
     df["predicted"] = get_preds(index_path)
     df['is_wrong'] = df.apply(lambda x: x['predicted'] != x['known_label'], axis=1)
-    
     return df
+
 
 if __name__ == '__main__':
     preds = get_preds("index")
     print(f"preds: {preds}")
+

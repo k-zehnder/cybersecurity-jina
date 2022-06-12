@@ -56,17 +56,17 @@ print('F1 score: %f' % f1)
 print()
 print()
 
-for d in index[-900:-400]:
-    known = d.tags.get("known_label")
-    print(f"known label: {known}")
+# for d in index[-900:-400]:
+#     known = d.tags.get("known_label")
+#     print(f"known label: {known}")
     
-    for m in d.matches[:2]:
-        predicted = m.tags.get("known_label")
-        score =  m.scores['cosine'].value
+#     for m in d.matches[:2]:
+#         predicted = m.tags.get("known_label")
+#         score =  m.scores['cosine'].value
         
-        print(f"predicted: {predicted} -- score: {score}")
+#         print(f"predicted: {predicted} -- score: {score}")
         
-        if known != predicted:
-            print("[INFO] wrong...")
+#         if known != predicted:
+#             print("[INFO] wrong...")
 
-    print()
+#     print()

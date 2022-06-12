@@ -22,6 +22,8 @@ class ITPrepper(Executor):
                 tags={
                     "dt" : self.embeddings_df.loc[i, "dt"],
                     "known_label" : self.embeddings_df.loc[i, "Label"],
+                    "port" : float(self.embeddings_df.loc[i, "Dst Port"]),
+                    "protocol" : float(self.embeddings_df.loc[i, "Protocol"]),
                 }
             )
             res_da.append(d)
