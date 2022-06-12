@@ -137,7 +137,6 @@ __MACOSX
 .ipynb_notebooks
 .DS_Store
 __pycache__
-data
 dual_workspace
 workspace
 *.db
