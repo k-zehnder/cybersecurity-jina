@@ -14,13 +14,13 @@ benigns_da = index.find({"tags__known_label" : {"$eq" : 0.0}}) # 14535
 benigns_da.summary()
 
 
-attack_q = index[-10] # known attack 
-attack_q.match(index, exclude_self=True)
-attack_q.summary()
+# attack_q = index[-10] # known attack 
+# attack_q.match(index, exclude_self=True)
+# attack_q.summary()
 
-benign_q = index[0] # known benign
-benign_q.match(index, exclude_self=True)
-benign_q.summary()
+# benign_q = index[0] # known benign
+# benign_q.match(index, exclude_self=True)
+# benign_q.summary()
 
 yhat = [] # "predictions" aka nearest neighbor/brute force
 y_test = [] # expected

@@ -38,6 +38,7 @@ class ITIndexer(Executor):
             for doc in docs:
                 self.index.append(doc)
         print("[INFO] saving index to disk...")
+        # self.index.match(self.index, exclude_self=True)
         self.index.save("index")
         self.index.summary()
         return self.index
