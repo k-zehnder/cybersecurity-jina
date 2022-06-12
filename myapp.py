@@ -3,26 +3,14 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from helpers import get_preds
+from helpers import get_data
 
 
 st.set_page_config(page_title="Cybersecurity Dashboard", page_icon=":spider:", layout="wide")
 
 # ---- GET DATA
-def get_data(index_path):
-    da = DocumentArray.load(index_path)
-    da_df = da.to_dataframe()
-    return da_df
-
 # old_df = get_data_from_excel()
 df = get_data("index")
-  
-df["id"] = df["id"].apply(lambda x: x[:8])
-df["datetime"] = df["tags"].apply(lambda x: x.get("dt"))
-df["known_label"] = df["tags"].apply(lambda x: x.get("known_label"))
-df["known_label"] = df["known_label"].map(lambda x: "Benign" if x == 0.0 else "Attack")
-df["predicted"] = get_preds("index")
-df['is_wrong'] = df.apply(lambda x: x['predicted'] != x['known_label'], axis=1)
 
 fig_line1 = px.line(df, x="datetime", y=df["predicted"], title='Network Intrusion Predictions')
 
@@ -33,10 +21,7 @@ left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig_line1, use_container_width=True)
 right_column.plotly_chart(fig_line2, use_container_width=True)
 
-
 st.dataframe(df[["id", "datetime", "known_label", "predicted", "is_wrong", "tags", "embedding"]])
-
-
 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
