@@ -24,7 +24,18 @@ df["known_label"] = df["known_label"].map(lambda x: "Benign" if x == 0.0 else "A
 df["predicted"] = get_preds("index")
 df['is_wrong'] = df.apply(lambda x: x['predicted'] != x['known_label'], axis=1)
 
-st.dataframe(df[["id", "datetime", "predicted", "known_label", "is_wrong", "tags", "embedding"]])
+fig_line1 = px.line(df, x="datetime", y=df["predicted"], title='Network Intrusion Predictions')
+
+fig_line2 = px.line(df, x="datetime", y=df["predicted"], title='Network Intrusion Predictions')
+
+# #NOTE: make one of these a map?
+left_column, right_column = st.columns(2)
+left_column.plotly_chart(fig_line1, use_container_width=True)
+right_column.plotly_chart(fig_line2, use_container_width=True)
+
+
+st.dataframe(df[["id", "datetime", "known_label", "predicted", "is_wrong", "tags", "embedding"]])
+
 
 
 # ---- HIDE STREAMLIT STYLE ----
