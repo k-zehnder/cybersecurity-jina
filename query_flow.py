@@ -15,7 +15,7 @@ class ITPredictor(Executor):
 
     @requests(on="/predict")
     def predict(self, docs: DocumentArray, **kwargs):
-        # usually documentarray would be sent to this route, but in this app tis executor executor will load docs from documentarray we already have saved at INDEX_PATH location.
+        # usually documentarray would be sent to this route, but in this app this executor will load docs from documentarray we already have saved at INDEX_PATH location given as parameter when it is defined in Flow (i.e., "uses_with=").
         print("[INFO] at predict route...")
 
         predictions = []
@@ -25,7 +25,7 @@ class ITPredictor(Executor):
             else:
                 predictions.append("Attack")
         
-        return DocumentArray(Document(preds=predictions[i]) for i in range(len(predictions)))
+        return DocumentArray(Document(preds=pred) for pred in predictions)
         
 
 f = (

@@ -30,6 +30,11 @@ right_column.plotly_chart(fig2, use_container_width=True)
 st.dataframe(df[["datetime", "doc_id", "port", "protocol", "known_label", "predicted", "is_wrong", "embedding"]])
 
 # -------------- Sidebar
+# date_options = df["datetime"].unique()
+# start_date_option = st.sidebar.selectbox('Select Start Date', date_options, index=0)
+# end_date_option = st.sidebar.selectbox('Select End Date', date_options, index=len(date_options)-1)
+
+
 st.sidebar.header("Please Filter Here:")
 region = st.sidebar.multiselect(
     "Select the City:",

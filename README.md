@@ -2,3 +2,5 @@
 
 
 ![wip](data/demo.png)
+
+![wip](data/embeddings_annotated.png)
