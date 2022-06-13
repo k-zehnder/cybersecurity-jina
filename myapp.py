@@ -8,7 +8,7 @@ from helpers import get_data, set_bg_hack_url, get_data_from_excel
 # ---------- Main area
 st.set_page_config(page_title="Cybersecurity Dashboard", page_icon=":spider:", layout="wide")
 set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
-st.title("⚡️  Cybersecurity Dashboard")
+st.title("🚨  Cybersecurity Dashboard")
 
 # ---- GET DATA
 df = get_data("index")
@@ -22,7 +22,7 @@ with placeholder.container():
     kpi1, kpi2, kpi3 = st.columns(3)
 
     # fill in those three columns with respective metrics or KPIs 
-    kpi1.metric(label="Threat Level 🚨", value=3, delta=2)
+    kpi1.metric(label="Threat Level 🔥", value=3, delta=2)
     kpi2.metric(label="Attacks/Hr 🕐", value=200, delta=-30)
     kpi3.metric(label="Estimated Damage 💰", value=300000, delta=50000)
 
