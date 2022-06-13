@@ -5,18 +5,18 @@ import streamlit as st
 
 from helpers import get_data, set_bg_hack_url, get_data_from_excel
 
-# ---------- Main area
+# -------------- Config
 st.set_page_config(page_title="Cybersecurity Dashboard", page_icon=":spider:", layout="wide")
 set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
 st.title("🚨  Cybersecurity Dashboard")
 
-# ---- GET DATA
+# -------------- Get data
 df = get_data("index")
 old_df = get_data_from_excel()
 
+# -------------- Main area
 # creating a single-element container.
 placeholder = st.empty()
-
 with placeholder.container():
     # create three columns
     kpi1, kpi2, kpi3 = st.columns(3)
@@ -40,7 +40,7 @@ right_column.plotly_chart(fig2, use_container_width=True)
 st.dataframe(df[["datetime", "doc_id", "port", "protocol", "known_label", "predicted", "is_wrong", "embedding"]])
 
 
-# ---- SIDEBAR ----
+# -------------- Sidebar
 st.sidebar.header("Please Filter Here:")
 region = st.sidebar.multiselect(
     "Select the City:",
