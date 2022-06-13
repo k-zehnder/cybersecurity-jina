@@ -23,7 +23,7 @@ with placeholder.container():
 
     # fill in those three columns with respective metrics or KPIs 
     kpi1.metric(label="Threat Level 🚨", value=3, delta=2)
-    kpi2.metric(label="Attacks/Hr 🕐", value=200, delta=30)
+    kpi2.metric(label="Attacks/Hr 🕐", value=200, delta=-30)
     kpi3.metric(label="Estimated Damage 💰", value=300000, delta=50000)
 
 fig1 = px.histogram(df, x="datetime", y="predicted", histfunc="count", nbins=8, text_auto=True, title='Threat Volume')
@@ -60,11 +60,11 @@ gender = st.sidebar.multiselect(
 )
 
 # ---- HIDE STREAMLIT STYLE ----
-# hide_st_style = """
-#             <style>
-#             #MainMenu {visibility: hidden;}
-#             footer {visibility: hidden;}
-#             header {visibility: hidden;}
-#             </style>
-#             """
-# st.markdown(hide_st_style, unsafe_allow_html=True)
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
