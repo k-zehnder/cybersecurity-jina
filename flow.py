@@ -43,7 +43,6 @@ class ITIndexer(Executor):
         
         print("[INFO] saving index to disk...")
         self.index.save(self.index_path)
-        self.index.summary()
         return self.index
 
 f = (

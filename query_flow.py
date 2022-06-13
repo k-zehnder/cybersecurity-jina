@@ -15,17 +15,17 @@ class ITPredictor(Executor):
 
     @requests(on="/predict")
     def predict(self, docs: DocumentArray, **kwargs):
-        print("[INFO] at predict route...", docs)
-        self.index.summary()
+        # usually documentarray would be sent to this route, but in this app tis executor executor will load docs from documentarray we already have saved at INDEX_PATH location.
+        print("[INFO] at predict route...")
 
-        preds = []
+        predictions = []
         for d in self.index:
             if d.matches[0].tags.get("known_label") == 0:
-                preds.append("Benign")
+                predictions.append("Benign")
             else:
-                preds.append("Attack")
+                predictions.append("Attack")
         
-        return DocumentArray(Document(preds=preds[i]) for i in range(len(preds)))
+        return DocumentArray(Document(preds=predictions[i]) for i in range(len(predictions)))
         
 
 f = (

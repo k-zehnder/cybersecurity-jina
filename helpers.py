@@ -28,7 +28,6 @@ def get_predictions():
     """
     client = get_client()
     results =  client.post("/predict", return_results=True)
-    print(f"results: {results}")
     return [doc.tags.get("preds") for doc in results]
 
 # @st.cache
