@@ -8,7 +8,7 @@ from helpers import get_data, set_bg_hack_url, get_data_from_excel
 # ---------- Main area
 st.set_page_config(page_title="Cybersecurity Dashboard", page_icon=":spider:", layout="wide")
 set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
-st.title(":spider:  Cybersecurity Dashboard")
+st.title("⚡️  Cybersecurity Dashboard")
 
 # ---- GET DATA
 df = get_data("index")
@@ -30,6 +30,7 @@ fig1 = px.histogram(df, x="datetime", y="predicted", histfunc="count", nbins=8, 
 
 fig2 = px.pie(df, values=df["predicted"].value_counts(), names=df["predicted"].unique().tolist(), title='Threat Distribution')
 
+
 # #NOTE: make one of these a map?
 left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
@@ -41,19 +42,19 @@ st.dataframe(df[["datetime", "doc_id", "port", "protocol", "known_label", "predi
 
 # ---- SIDEBAR ----
 st.sidebar.header("Please Filter Here:")
-city = st.sidebar.multiselect(
+region = st.sidebar.multiselect(
     "Select the City:",
     options=["New York", "Houston", "San Francisco"],
     default=["San Francisco", "Houston"]
 )
 
-customer_type = st.sidebar.multiselect(
+attack_type = st.sidebar.multiselect(
     "Select the Attack Type:",
     options=["Benign", "Attack"],
     default=["Attack", "Benign"]
 )
 
-gender = st.sidebar.multiselect(
+port = st.sidebar.multiselect(
     "Select the Port:",
     options=["44", "80"],
     default=["80"]
