@@ -4,14 +4,14 @@ import pandas as pd
 import numpy as np
 
 
-PATH = "/Users/peppermint/Desktop/codes/python/cybersecurity-jina/data/embeddings_df_with_details.csv"
-
+DATA_URL = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
+INDEX_PATH = "./index"
 
 class ITPrepper(Executor):
-    def __init__(self, path: str, **kwargs):
+    def __init__(self, data_url: str, **kwargs):
         super().__init__(**kwargs)
-        self.path = path
-        self.embeddings_df = pd.read_csv(self.path)
+        self.data_url = data_url
+        self.embeddings_df = pd.read_csv(self.data_url)
         
     @requests
     def preprocess(self, docs: DocumentArray, **kwargs):
@@ -30,8 +30,9 @@ class ITPrepper(Executor):
         return res_da
 
 class ITIndexer(Executor):
-    def __init__(self, **kwargs):
+    def __init__(self, index_path: str, **kwargs):
         super().__init__(**kwargs)
+        self.index_path = index_path
         self.index = DocumentArray()
 
     @requests
@@ -39,9 +40,9 @@ class ITIndexer(Executor):
         with self.index:
             for doc in docs:
                 self.index.append(doc)
+        
         print("[INFO] saving index to disk...")
-        # self.index.match(self.index, exclude_self=True)
-        self.index.save("index")
+        self.index.save(self.index_path)
         self.index.summary()
         return self.index
 
@@ -50,10 +51,11 @@ f = (
     .add(
         uses=ITPrepper,
         name="ITPrepper",
-        uses_with={"path" : PATH}
+        uses_with={"data_url" : DATA_URL}
     ).add(
         uses=ITIndexer,
         name="ITIndexer",
+        uses_with={"index_path" : INDEX_PATH}
     )
 )    
 

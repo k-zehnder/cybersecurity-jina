@@ -1,15 +1,14 @@
 import plotly.express as px
 import streamlit as st
-from helpers import get_data, set_bg_hack_url, get_data_from_excel
+from helpers import get_data, set_bg_hack_url
 
 # -------------- Config
-st.set_page_config(page_title="Cybersecurity Dashboard", page_icon=":spider:", layout="wide")
+st.set_page_config(page_title="Cybersecurity Dashboard", page_icon="🔍", layout="wide")
 set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
 st.title("🚨  Cybersecurity Dashboard")
 
 # -------------- Get data
 df = get_data("index")
-old_df = get_data_from_excel()
 
 # -------------- Main area
 placeholder = st.empty()
@@ -51,11 +50,11 @@ port = st.sidebar.multiselect(
 )
 
 # -------------- Hide streamlit style
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+# hide_st_style = """
+#             <style>
+#             #MainMenu {visibility: hidden;}
+#             footer {visibility: hidden;}
+#             header {visibility: hidden;}
+#             </style>
+#             """
+# st.markdown(hide_st_style, unsafe_allow_html=True)

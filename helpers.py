@@ -1,21 +1,8 @@
-from docarray import Document, DocumentArray
+from jina import Document, DocumentArray, Client
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-
-@st.cache
-def get_preds(index_path):
-    da = DocumentArray.load(index_path)
-    da.match(da, exclude_self=True)
-    
-    preds =[]
-    for d in da:
-        if d.matches[0].tags.get("known_label") == 0:
-            preds.append("Benign")
-        else:
-            preds.append("Attack")
-    return preds
 
 def get_data(index_path):
     da = DocumentArray.load(index_path)
@@ -27,23 +14,38 @@ def get_data(index_path):
     df["port"] = df["tags"].apply(lambda x: int(x.get("port")))
     df["protocol"] = df["tags"].apply(lambda x: int(x.get("protocol")))
     df["known_label"] = df["known_label"].map(lambda x: "Benign" if x == 0.0 else "Attack")
-    df["predicted"] = get_preds(index_path)
+    # df["predicted"] = get_predictions(index_path)
+    df["predicted"] = get_predictions()
     df['is_wrong'] = df.apply(lambda x: x['predicted'] != x['known_label'], axis=1)
     return df
 
-@st.cache
-def get_data_from_excel():
-    df = pd.read_excel(
-        io="./data/supermarkt_sales.xlsx",
-        engine="openpyxl",
-        sheet_name="Sales",
-        skiprows=3,
-        usecols="B:R",
-        nrows=1000,
-    )
-    # Add 'hour' column to dataframe
-    df["hour"] = pd.to_datetime(df["Time"], format="%H:%M:%S").dt.hour
-    return df
+def get_client():
+    return Client(port="12345")
+
+def get_predictions():
+    """
+    ***Need to have query_flow.py running in seperate file for this fxn to work.***
+    """
+    client = get_client()
+    results =  client.post("/predict", return_results=True)
+    print(f"results: {results}")
+    return [doc.tags.get("preds") for doc in results]
+
+# @st.cache
+# def _get_predictions(index_path):
+    # """
+    # ***If you don't want to use Client().***
+    # """
+#     da = DocumentArray.load(index_path)
+#     da.match(da, exclude_self=True)
+    
+#     preds = []
+#     for d in da:
+#         if d.matches[0].tags.get("known_label") == 0:
+#             preds.append("Benign")
+#         else:
+#             preds.append("Attack")
+#     return preds
 
 def set_bg_hack_url(url: str) -> None:
     '''
