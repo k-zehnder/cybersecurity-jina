@@ -10,8 +10,7 @@ INDEX_PATH = "./index"
 class ITPrepper(Executor):
     def __init__(self, data_url: str, **kwargs):
         super().__init__(**kwargs)
-        self.data_url = data_url
-        self.embeddings_df = pd.read_csv(self.data_url)
+        self.embeddings_df = pd.read_csv(data_url) # can combine these
         
     @requests
     def preprocess(self, docs: DocumentArray, **kwargs):
