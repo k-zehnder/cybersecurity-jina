@@ -4,15 +4,15 @@ import pandas as pd
 import numpy as np
 
 
-DATA_URL_DATASET_1 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
+# DATA_URL_DATASET_1 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
 DATA_URL_DATASET_2 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/dataset_2_embeddings_df_with_details.csv?raw=true"
-INDEX_PATH = "./index"
+INDEX_PATH = "./data/index"
 
 
 class ITPrepper(Executor):
     def __init__(self, data_url: str, **kwargs):
         super().__init__(**kwargs)
-        self.embeddings_df = pd.read_csv(data_url) # can combine these
+        self.embeddings_df = pd.read_csv(data_url)
         
     @requests
     def preprocess(self, docs: DocumentArray, **kwargs):
@@ -51,7 +51,7 @@ f = (
     .add(
         uses=ITPrepper,
         name="ITPrepper",
-        uses_with={"data_url" : DATA_URL_DATASET_1}
+        uses_with={"data_url" : DATA_URL_DATASET_2}
     ).add(
         uses=ITIndexer,
         name="ITIndexer",

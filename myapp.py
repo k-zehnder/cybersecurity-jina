@@ -8,7 +8,7 @@ set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
 st.title("🚨  Cybersecurity Dashboard")
 
 # -------------- Get data
-df = get_data("index")
+df = get_data("./data/index")
 
 # -------------- Main area
 placeholder = st.empty()

@@ -2,7 +2,7 @@ from jina import Flow, Executor, requests
 from docarray import Document, DocumentArray
 
 
-INDEX_PATH = "./index"
+INDEX_PATH = "./data/index"
 
 
 class ITPredictor(Executor):
