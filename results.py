@@ -52,6 +52,18 @@ print('Recall: %f' % recall)
 f1 = f1_score(y_test, yhat)
 print('F1 score: %f' % f1)
 
+# dataset1:
+# Accuracy: 0.997748
+# Precision: 0.966667
+# Recall: 0.973498
+# F1 score: 0.970070
+
+# dataset2:
+# Accuracy: 0.997933
+# Precision: 0.955923
+# Recall: 0.958564
+# F1 score: 0.957241
+
 
 print()
 print()

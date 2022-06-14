@@ -4,8 +4,10 @@ import pandas as pd
 import numpy as np
 
 
-DATA_URL = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
+DATA_URL_DATASET_1 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
+DATA_URL_DATASET_2 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/dataset_2_embeddings_df_with_details.csv?raw=true"
 INDEX_PATH = "./index"
+
 
 class ITPrepper(Executor):
     def __init__(self, data_url: str, **kwargs):
@@ -49,7 +51,7 @@ f = (
     .add(
         uses=ITPrepper,
         name="ITPrepper",
-        uses_with={"data_url" : DATA_URL}
+        uses_with={"data_url" : DATA_URL_DATASET_1}
     ).add(
         uses=ITIndexer,
         name="ITIndexer",
