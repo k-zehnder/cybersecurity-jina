@@ -34,6 +34,7 @@ f = (
         uses=ITPredictor,
         name="ITPredictor",
         uses_with={"index_path" : INDEX_PATH}
+
     )
 )    
 

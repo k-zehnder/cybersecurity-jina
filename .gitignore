@@ -144,3 +144,7 @@ workspace
 backup_app.py
 color_backup_app.py
 client.py
+weaviate.py
+eda_weaviate.py
+
+issue.txt

@@ -1,4 +1,6 @@
+import os
 from jina import Flow, Executor, requests
+from jina import DocumentArray, Executor, requests
 from docarray import Document, DocumentArray
 import pandas as pd
 import numpy as np
@@ -6,7 +8,7 @@ import numpy as np
 
 # DATA_URL_DATASET_1 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
 DATA_URL_DATASET_2 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/dataset_2_embeddings_df_with_details.csv?raw=true"
-INDEX_PATH = "./data/index"
+INDEX_PATH = "index"
 
 
 class ITPrepper(Executor):
@@ -38,12 +40,11 @@ class ITIndexer(Executor):
 
     @requests
     def index(self, docs: DocumentArray, **kwargs):
-        with self.index:
-            for doc in docs:
-                self.index.append(doc)
-        
         print("[INFO] saving index to disk...")
+        with self.index:
+            self.index.extend(docs)
         self.index.save(self.index_path)
+        self.index.summary()
         return self.index
 
 f = (
@@ -51,14 +52,23 @@ f = (
     .add(
         uses=ITPrepper,
         name="ITPrepper",
-        uses_with={"data_url" : DATA_URL_DATASET_2}
+        uses_with={"data_url" : DATA_URL_DATASET_2},
+        workspace="/Users/peppermint/Desktop/codes/python/cybersecurity-jina"
+
     ).add(
         uses=ITIndexer,
         name="ITIndexer",
-        uses_with={"index_path" : INDEX_PATH}
+        uses_with={"index_path" : INDEX_PATH},
+        workspace="/Users/peppermint/Desktop/codes/python/cybersecurity-jina"
     )
-)    
+    .add(
+        uses="jinahub+docker://WeaviateIndexer/latest",
+        name="Indexer",
+        workspace="/Users/peppermint/Desktop/codes/python/cybersecurity-jina"
+    )
+)
 
 with f:
-    f.post(on="/start")
+    f.post(on="/start", show_progress=True)
+ 
  
