@@ -146,5 +146,7 @@ color_backup_app.py
 client.py
 weaviate.py
 eda_weaviate.py
+workspace
+notes
 
 issue.txt
