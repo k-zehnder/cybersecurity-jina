@@ -1,1 +1,0 @@
-had trouble with "permissions" when using the SimpleIndexer from jina hub. So instead, I just copied a blank .db file to local directory, and then explicitly connected to it by defining its path in the constructor of the ITIndexer executor
