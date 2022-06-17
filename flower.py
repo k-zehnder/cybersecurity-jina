@@ -77,21 +77,21 @@ f = (
     Flow()
     .add(
         uses=ITPrepper, 
-        name='ITPrepper', 
+        name="ITPrepper", 
         uses_with={"data_url" : configs["DATA_URL_DATASET_2"]}
     ).add(
         uses=DocArrayIndexer, 
-        name='DocArrayIndexer',
-        needs='ITPrepper', 
+        name="DocArrayIndexer",
+        needs="ITPrepper", 
         uses_with={"index_path" : configs["INDEX_PATH"]}
     ).add(
         uses=WeaviateIndexer,
-        name='WeaviateIndexer',
-        needs='ITPrepper'
+        name="WeaviateIndexer",
+        needs="ITPrepper"
     ).add(
         uses=DummyExecutor,
         name="DummyExecutor",
-        needs=['DocArrayIndexer', 'WeaviateIndexer']
+        needs=["DocArrayIndexer", "WeaviateIndexer"]
     )
 )
 

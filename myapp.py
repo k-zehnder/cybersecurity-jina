@@ -3,6 +3,7 @@ import streamlit as st
 from config import configs
 from helpers import get_data, set_bg_hack_url
 
+
 # -------------- Config
 st.set_page_config(page_title="Cybersecurity Dashboard", page_icon="🔍", layout="wide")
 set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
@@ -31,11 +32,6 @@ right_column.plotly_chart(fig2, use_container_width=True)
 st.dataframe(df[["datetime", "doc_id", "port", "protocol", "known_label", "predicted", "is_wrong", "embedding"]])
 
 # -------------- Sidebar
-# date_options = df["datetime"].unique()
-# start_date_option = st.sidebar.selectbox('Select Start Date', date_options, index=0)
-# end_date_option = st.sidebar.selectbox('Select End Date', date_options, index=len(date_options)-1)
-
-
 st.sidebar.header("Please Filter Here:")
 region = st.sidebar.multiselect(
     "Select the City:",
