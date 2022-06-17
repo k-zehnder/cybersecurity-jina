@@ -2,6 +2,7 @@ from docarray import Document, DocumentArray
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 from config import import configs
 
+
 index = DocumentArray.load(configs["INDEX_PATH"])
 index.match(index, exclude_self=True)
 index.summary()
