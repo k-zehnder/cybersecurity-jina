@@ -45,7 +45,6 @@ class DocArrayIndexer(Executor):
 class WeaviateIndexer(Executor):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
         self.index = DocumentArray(
                     storage='weaviate',
                     config={
