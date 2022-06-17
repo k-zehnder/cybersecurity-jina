@@ -21,15 +21,14 @@ with placeholder.container():
     kpi2.metric(label="Attacks/Hr 🕐", value=200, delta=-30)
     kpi3.metric(label="Estimated Damage 💰", value=300000, delta=50000)
 
-fig1 = px.histogram(df, x="datetime", y="predicted", histfunc="count", nbins=8, text_auto=True, title='Threat Volume')
-fig2 = px.pie(df, values=df["predicted"].value_counts(), names=df["predicted"].unique().tolist(), title='Threat Distribution')
+fig1 = px.histogram(df, x="datetime", y="predicted_da", histfunc="count", nbins=8, text_auto=True, title='Threat Volume')
+fig2 = px.pie(df, values=df["predicted_da"].value_counts(), names=df["predicted_da"].unique().tolist(), title='Threat Distribution')
 
-# #NOTE: make one of these a map?
 left_column, right_column = st.columns(2)
 left_column.plotly_chart(fig1, use_container_width=True)
 right_column.plotly_chart(fig2, use_container_width=True)
 
-st.dataframe(df[["datetime", "doc_id", "port", "protocol", "known_label", "predicted", "is_wrong", "embedding"]])
+st.dataframe(df)
 
 # -------------- Sidebar
 st.sidebar.header("Please Filter Here:")

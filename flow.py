@@ -94,7 +94,7 @@ f = (
     )
 )
 
-# f.plot(configs["FLOW_SAVE_PATH"])
+f.plot(configs["FLOW_SAVE_PATH"])
 
 with f:
     f.post(on="/start", show_progress=True)
