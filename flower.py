@@ -1,14 +1,8 @@
-import os
-from jina import Flow, Executor, requests
-from jina import DocumentArray, Executor, requests
-from docarray import Document, DocumentArray
-import pandas as pd
 import numpy as np
-
-
-# DATA_URL_DATASET_1 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/embeddings_df_with_details.csv?raw=true"
-DATA_URL_DATASET_2 = "https://github.com/k-zehnder/cybersecurity-jina/blob/main/data/dataset_2_embeddings_df_with_details.csv?raw=true"
-INDEX_PATH = "index"
+import pandas as pd
+from jina import Flow, Executor, requests
+from docarray import DocumentArray
+from config import configs
 
 
 class ITPrepper(Executor):
@@ -76,7 +70,7 @@ class DummyExecutor(Executor):
     @requests
     def index(self, docs: DocumentArray, **kwargs):
         print("[INFO] at DummyExecutor...")  
-        print(docs) # len 15000 as expected b/c goes parallel to each prior executor in flow
+        print(docs) 
         docs.summary()
        
 f = (
@@ -84,12 +78,12 @@ f = (
     .add(
         uses=ITPrepper, 
         name='ITPrepper', 
-        uses_with={"data_url" : DATA_URL_DATASET_2}
+        uses_with={"data_url" : configs["DATA_URL_DATASET_2"]}
     ).add(
         uses=DocArrayIndexer, 
         name='DocArrayIndexer',
         needs='ITPrepper', 
-        uses_with={"index_path" : INDEX_PATH}
+        uses_with={"index_path" : configs["INDEX_PATH"]}
     ).add(
         uses=WeaviateIndexer,
         name='WeaviateIndexer',
@@ -101,7 +95,7 @@ f = (
     )
 )
 
-f.plot("flow.svg")
+# f.plot(configs["FLOW_SAVE_PATH"])
 
 with f:
     f.post(on="/start", show_progress=True)

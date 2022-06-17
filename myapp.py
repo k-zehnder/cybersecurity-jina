@@ -1,5 +1,6 @@
 import plotly.express as px
 import streamlit as st
+from config import configs
 from helpers import get_data, set_bg_hack_url
 
 # -------------- Config
@@ -8,7 +9,7 @@ set_bg_hack_url("https://wallpapercave.com/uwp/uwp1259188.gif")
 st.title("🚨  Cybersecurity Dashboard")
 
 # -------------- Get data
-df = get_data("./data/index")
+df = get_data(configs["INDEX_PATH"])
 
 # -------------- Main area
 placeholder = st.empty()

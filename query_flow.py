@@ -1,8 +1,8 @@
 from jina import Flow, Executor, requests
 from docarray import Document, DocumentArray
+from config import configs
 
-
-INDEX_PATH = "./data/index"
+INDEX_PATH = configs["INDEX_PATH"]
 
 
 class ITPredictor(Executor):
