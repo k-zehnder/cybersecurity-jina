@@ -45,7 +45,7 @@ class DocArrayIndexer(Executor):
         with self.index:
             self.index.extend(docs)
         self.index.save(self.index_path)
-        return self.index
+        # return self.index
     
     
 class WeaviateExecutor(Executor):
@@ -67,23 +67,41 @@ class WeaviateExecutor(Executor):
         with self.index:
             self.index.extend(docs)
         self.index.summary()
-        
+        # return self.index
 
+class DummyExecutor(Executor):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        
+    @requests
+    def index(self, docs: DocumentArray, **kwargs):
+        print("[INFO] at DummyExecutor...")  
+        print(docs) # len 15000 as expected b/c goes parallel to each prior executor in flow
+        docs.summary()
+       
 f = (
     Flow()
     .add(
-        uses=ITPrepper,
-        name="ITPrepper",
-        uses_with={"data_url" : DATA_URL_DATASET_2},
+        uses=ITPrepper, 
+        name='ITPrepper', 
+        uses_with={"data_url" : DATA_URL_DATASET_2}
     ).add(
-        uses=DocArrayIndexer,
-        name="DocArrayIndexer",
-        uses_with={"index_path" : INDEX_PATH},
+        uses=DocArrayIndexer, 
+        name='DocArrayIndexer',
+        needs='ITPrepper', 
+        uses_with={"index_path" : INDEX_PATH}
     ).add(
         uses=WeaviateExecutor,
-        name="WeaviateExecutor",
+        name='WeaviateExecutor',
+        needs='ITPrepper'
+    ).add(
+        uses=DummyExecutor,
+        name="DummyExecutor",
+        needs=['DocArrayIndexer', 'WeaviateExecutor']
     )
 )
+
+f.plot("flow.svg")
 
 with f:
     f.post(on="/start", show_progress=True)

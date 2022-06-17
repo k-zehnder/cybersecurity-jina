@@ -1,50 +1,22 @@
 from jina import Flow, Executor,requests
 from docarray import Document, DocumentArray
 import numpy as np
+from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
+
 
 print("[INFO] weaviate...")
 da =  DocumentArray(
     storage='weaviate', config={'name': 'Persisted', 'host': 'localhost', 'port': 8080}
 )
 
-with da:
-    q = DocumentArray(Document(embedding=da[0].embedding))
-    res = da.find(q, limit=2)
-    print(f"[INFO] query results...")
-
-print(len(res)
-)#1
-print(res) # returns len 1 list of docrray with 2 sub docs
-print(type(res)) # list
-print(res[0][0].tags.get("known_label")) # 0.0
-
-print()
-print()
-
-print(q) # docarray with 1 sub document
-print(type(q)) # docarray
-print(q.summary())
-
-
-# attacks_da = index.find({"tags__known_label" : {"$eq" : 1.0}}) # 566
-# attacks_da.summary()
-
-# benigns_da = index.find({"tags__known_label" : {"$eq" : 0.0}}) # 14535
-# benigns_da.summary()
-
-
-# attack_q = index[-10] # known attack 
-# attack_q.match(index, exclude_self=True)
-# attack_q.summary()
-
-# benign_q = index[0] # known benign
-# benign_q.match(index, exclude_self=True)
-# benign_q.summary()
+# # simulate; had problems using match with weavaite backend so this is workaround
+# da = DocumentArray(da, copy=True)
+# da.match(da, exclude_self=True)
 
 # y_test = [] # expected
 # yhat = [] # "predictions" aka nearest neighbor/brute force
 
-# for doc in index:
+# for doc in da:
 #     # known
 #     if doc.tags.get("known_label") == 0.0:
 #         y_test.append(0.0)
@@ -56,6 +28,9 @@ print(q.summary())
 #         yhat.append(0.0)
 #     else:
 #         yhat.append(1.0)
+    
+#     if doc.tags.get("known_label") != doc.matches[0].tags.get("known_label"):
+#         print("[INFO] wrong!...")
 
 
 # # accuracy: (tp + tn) / (p + n)
@@ -70,6 +45,49 @@ print(q.summary())
 # # f1: 2 tp / (2 tp + fp + fn)
 # f1 = f1_score(y_test, yhat)
 # print('F1 score: %f' % f1)
+
+
+# TODO: why are results different when use method below?
+# Accuracy: 0.981667
+# Precision: 0.642623
+# Recall: 0.541436
+# F1 score: 0.587706
+
+y_test = [] # expected
+yhat = [] # "predictions" aka nearest neighbor/brute force
+
+with da:
+    for d in da:
+        res = da.find(d, metric="euclidean", limit=1, exclude_self=True)
+        
+        known = d.tags.get("known_label")
+        if known == 0.0:
+            y_test.append(0.0)
+        else:
+            y_test.append(1.0)
+            
+        pred = res[0][0].tags.get("known_label")
+        if pred == 0.0:
+            yhat.append(0.0)
+        else:
+            yhat.append(1.0)
+            
+        if known != pred:
+            print("[INFO] wrong...")
+
+
+# accuracy: (tp + tn) / (p + n)
+accuracy = accuracy_score(y_test, yhat)
+print('Accuracy: %f' % accuracy)
+# precision tp / (tp + fp)
+precision = precision_score(y_test, yhat)
+print('Precision: %f' % precision)
+# recall: tp / (tp + fn)
+recall = recall_score(y_test, yhat)
+print('Recall: %f' % recall)
+# f1: 2 tp / (2 tp + fp + fn)
+f1 = f1_score(y_test, yhat)
+print('F1 score: %f' % f1)
 
 # dataset1--sqlite:
 # Accuracy: 0.997748
@@ -87,26 +105,11 @@ print(q.summary())
 
 
 # dataset2--weaviate:
+# Accuracy: 0.997933
+# Precision: 0.955923
+# Recall: 0.958564
+# F1 score: 0.957241
 
-
-
-print()
-print()
-
-# for d in index[-900:-400]:
-#     known = d.tags.get("known_label")
-#     print(f"known label: {known}")
-    
-#     for m in d.matches[:2]:
-#         predicted = m.tags.get("known_label")
-#         score =  m.scores['cosine'].value
-        
-#         print(f"predicted: {predicted} -- score: {score}")
-        
-#         if known != predicted:
-#             print("[INFO] wrong...")
-
-#     print()
 
 
 

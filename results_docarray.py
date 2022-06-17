@@ -2,18 +2,8 @@ from docarray import Document, DocumentArray
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 
 
-# index = DocumentArray.load("index")
-# index.match(index, exclude_self=True)
-
-index = DocumentArray(
-            storage='weaviate',
-            config={
-                "name" : "Persisted",
-                "host" : "localhost",
-                "port" : 8080,
-            }
-)
-index.match(index, exclude_self=True) # dont match in executor
+index = DocumentArray.load("index")
+index.match(index, exclude_self=True)
 index.summary()
 
 attacks_da = index.find({"tags__known_label" : {"$eq" : 1.0}}) # 566
@@ -97,3 +87,26 @@ print()
 #             print("[INFO] wrong...")
 
 #     print()
+
+# TODO: below takes a LONG time, didn't work
+# y_test = [] # expected
+# yhat = [] # "predictions" aka nearest neighbor/brute force
+
+# with index:
+#     for d in index:
+#         res = index.find(d, limit=1, exclude_self=True)
+        
+#         known = d.tags.get("known_label")
+#         if known == 0.0:
+#             y_test.append(0.0)
+#         else:
+#             y_test.append(1.0)
+            
+#         pred = res[0][0].tags.get("known_label")
+#         if pred == 0.0:
+#             yhat.append(0.0)
+#         else:
+#             yhat.append(1.0)
+            
+#         if known != pred:
+#             print("[INFO] wrong...")
