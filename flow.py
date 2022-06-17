@@ -62,6 +62,7 @@ class WeaviateIndexer(Executor):
         self.index.summary()
         # return self.index
 
+
 class DummyExecutor(Executor):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
