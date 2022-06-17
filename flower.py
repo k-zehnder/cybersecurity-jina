@@ -48,7 +48,7 @@ class DocArrayIndexer(Executor):
         # return self.index
     
     
-class WeaviateExecutor(Executor):
+class WeaviateIndexer(Executor):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -91,17 +91,17 @@ f = (
         needs='ITPrepper', 
         uses_with={"index_path" : INDEX_PATH}
     ).add(
-        uses=WeaviateExecutor,
-        name='WeaviateExecutor',
+        uses=WeaviateIndexer,
+        name='WeaviateIndexer',
         needs='ITPrepper'
     ).add(
         uses=DummyExecutor,
         name="DummyExecutor",
-        needs=['DocArrayIndexer', 'WeaviateExecutor']
+        needs=['DocArrayIndexer', 'WeaviateIndexer']
     )
 )
 
-# f.plot("flow.svg")
+f.plot("flow.svg")
 
 with f:
     f.post(on="/start", show_progress=True)
