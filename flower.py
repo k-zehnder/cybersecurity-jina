@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from jina import Flow, Executor, requests
-from docarray import DocumentArray
+from docarray import Document, DocumentArray
 from config import configs
 
 
