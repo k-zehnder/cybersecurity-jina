@@ -62,8 +62,8 @@ f = (
 
     )
 )    
-
-with f:
-    print("[INFO] blocking...")
-    f.block()
+if __name__ == "__main__":
+    with f:
+        print("[INFO] blocking...")
+        f.block()
  
