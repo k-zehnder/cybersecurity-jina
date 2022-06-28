@@ -78,7 +78,7 @@ f = (
     .add(
         uses=ITPrepper, 
         name="ITPrepper", 
-        uses_with={"data_url" : configs["DATA_URL_DATASET_2"]}
+        uses_with={"data_url" : configs["DATA_URL_DATASET_1"]}
     ).add(
         uses=DocArrayIndexer, 
         name="DocArrayIndexer",
