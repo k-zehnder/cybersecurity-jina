@@ -23,7 +23,7 @@ for doc in da:
     else:
         y_test.append(1.0)
     
-    # use similarity search to classify depending on class of nearest neighbor
+    # use similarity search to classify by class of nearest neighbor
     if doc.matches[0].tags.get("known_label") == 0.0:
         yhat.append(0.0)
     else:

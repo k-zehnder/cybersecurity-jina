@@ -39,8 +39,6 @@ class DocArrayIndexer(Executor):
         with self.index:
             self.index.extend(docs)
         self.index.save(self.index_path)
-        # return self.index
-    
     
 class WeaviateIndexer(Executor):
     def __init__(self, **kwargs):
@@ -60,8 +58,6 @@ class WeaviateIndexer(Executor):
         with self.index:
             self.index.extend(docs)
         self.index.summary()
-        # return self.index
-
 
 class DummyExecutor(Executor):
     def __init__(self, **kwargs):
