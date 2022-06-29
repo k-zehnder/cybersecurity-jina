@@ -1,4 +1,5 @@
 from jina import Document, DocumentArray, Client
+from typing import Dict, List
 import pandas as pd
 import streamlit as st
 
@@ -9,41 +10,33 @@ def get_data(index_path):
     return clean_data(df)
 
 def clean_data(df):
-    attack_benign_docarray = get_docarray_predictions()
-    attack_benign_weaviate = get_weaviate_predictions()
+    attack_benign = get_predictions()
 
-    
     df["doc_id"] = df["id"].apply(lambda x: x[:8])
     df["datetime"] = df["tags"].apply(lambda x: x.get("dt"))
     df["known_label"] = df["tags"].apply(lambda x: x.get("known_label"))
     df["port"] = df["tags"].apply(lambda x: int(x.get("port")))
     df["protocol"] = df["tags"].apply(lambda x: int(x.get("protocol")))
     df["known_label"] = df["known_label"].map(lambda x: "Benign" if x == 0.0 else "Attack")
-    df["predicted_da"] = attack_benign_docarray
-    df["predicted_weav"] = attack_benign_weaviate
+    df["predicted_da"] = attack_benign["docarray"]
+    df["predicted_weav"] = attack_benign["weaviate"]
     df['is_wrong'] = df.apply(lambda x: (x['predicted_da'] != x['known_label']) or (x['predicted_weav'] != x['known_label']), axis=1)
+    
     return df[["datetime", "doc_id", "port", "protocol", "known_label", "predicted_da", "predicted_weav", "is_wrong", "embedding"]]
 
-def get_client():
+def get_client() -> Client:
     return Client(port="12345")
 
-def get_docarray_predictions():
+def get_predictions() -> Dict:
     """
-    NOTE: Need to have query_flow.py running in seperate terminal tab for this function to work.
-    """
-    client = get_client()
-    results = client.post("/predict", return_results=True)
-    return [doc.tags.get("pred_da") for doc in results]
-
-
-def get_weaviate_predictions():
-    """
-    NOTE: Need to have query_flow.py running in seperate terminal tab for this function to work.
+    Need to have query_flow.py running to work.
     """
     client = get_client()
     results = client.post("/predict", return_results=True)
-    return [doc.tags.get("pred_weav") for doc in results]
-
+    return {
+            "docarray" : [doc.tags.get("pred_da") for doc in results],
+            "weaviate" : [doc.tags.get("pred_weav") for doc in results]
+    }
 
 def set_bg_hack_url(url: str) -> None:
     """

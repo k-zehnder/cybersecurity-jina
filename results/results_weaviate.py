@@ -9,7 +9,7 @@ da = DocumentArray(
     storage='weaviate', config={'name': 'Persisted', 'host': 'localhost', 'port': 8080}
 )
 
-# why copying?; had problems using match with weavaite backend and getting it to persist (even when using as context manager) so copying it is a workaround
+# why copying? had problems using match with weavaite backend and getting it to persist (even when using as context manager) so copying it is a workaround
 da = DocumentArray(da, copy=True)
 da.match(da, exclude_self=True)
 
