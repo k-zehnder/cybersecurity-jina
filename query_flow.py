@@ -53,6 +53,7 @@ class ITPredictor(Executor):
         
         return DocumentArray(Document(pred_da=p_da, pred_weav=p_weav) for p_da, p_weav in zip(da_predictions, weav_predictions))
 
+
 f = (
     Flow(port=12345)
     .add(
@@ -62,8 +63,10 @@ f = (
 
     )
 )    
+
 if __name__ == "__main__":
     with f:
         print("[INFO] blocking...")
         f.block()
+        
  
