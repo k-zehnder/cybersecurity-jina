@@ -4,12 +4,12 @@ import numpy as np
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 
 
-print("[INFO] weaviate...")
-da =  DocumentArray(
+print("[INFO] weaviate: make sure docker-compose up...")
+da = DocumentArray(
     storage='weaviate', config={'name': 'Persisted', 'host': 'localhost', 'port': 8080}
 )
 
-# # simulate; had problems using match with weavaite backend and getting it to persist (even when using as context manager ) so this is workaround
+# why copying?; had problems using match with weavaite backend and getting it to persist (even when using as context manager) so copying it is a workaround
 da = DocumentArray(da, copy=True)
 da.match(da, exclude_self=True)
 
@@ -31,7 +31,6 @@ for doc in da:
     
     if doc.tags.get("known_label") != doc.matches[0].tags.get("known_label"):
         print("[INFO] wrong!...")
-
 
 # accuracy: (tp + tn) / (p + n)
 accuracy = accuracy_score(y_test, yhat)
