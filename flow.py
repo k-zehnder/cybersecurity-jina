@@ -40,6 +40,7 @@ class DocArrayIndexer(Executor):
             self.index.extend(docs)
         self.index.save(self.index_path)
     
+    
 class WeaviateIndexer(Executor):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -59,6 +60,7 @@ class WeaviateIndexer(Executor):
             self.index.extend(docs)
         self.index.summary()
 
+
 class DummyExecutor(Executor):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -68,6 +70,7 @@ class DummyExecutor(Executor):
         print("[INFO] at DummyExecutor...")  
         print(docs) 
         docs.summary()
+  
        
 f = (
     Flow()
@@ -90,6 +93,7 @@ f = (
         needs=["DocArrayIndexer", "WeaviateIndexer"]
     )
 )
+
 
 if __name__ == "__main__":
     f.plot(configs["FLOW_SAVE_PATH"])
