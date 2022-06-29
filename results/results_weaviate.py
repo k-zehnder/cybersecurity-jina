@@ -28,9 +28,6 @@ for doc in da:
         yhat.append(0.0)
     else:
         yhat.append(1.0)
-    
-    if doc.tags.get("known_label") != doc.matches[0].tags.get("known_label"):
-        print("[INFO] wrong!...")
 
 # accuracy: (tp + tn) / (p + n)
 accuracy = accuracy_score(y_test, yhat)
