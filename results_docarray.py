@@ -1,6 +1,6 @@
 from docarray import Document, DocumentArray
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
-from config import import configs
+from config import configs
 
 
 index = DocumentArray.load(configs["INDEX_PATH"])
@@ -14,11 +14,11 @@ benigns_da = index.find({"tags__known_label" : {"$eq" : 0.0}}) # 14535
 benigns_da.summary()
 
 
-attack_q = index[-10] # known attack 
+attack_q = attacks_da[0] # known attack 
 attack_q.match(index, exclude_self=True)
 attack_q.summary()
 
-benign_q = index[0] # known benign
+benign_q = benigns_da[0] # known benign
 benign_q.match(index, exclude_self=True)
 benign_q.summary()
 
@@ -32,7 +32,7 @@ for doc in index:
     else:
         y_test.append(1.0)
     
-    # these are nearest neighbor/brute force which is basically the "prediction" since we have embeddings stored in vector space as opposed to a forward pass through neural network or something
+    # use similarity search to classify depending on class of nearest neighbor
     if doc.matches[0].tags.get("known_label") == 0.0:
         yhat.append(0.0)
     else:
@@ -64,7 +64,3 @@ print('F1 score: %f' % f1)
 # Recall: 0.958564
 # F1 score: 0.957241
 
-# dataset1--weaviate:
-
-
-# dataset2--weaviate:
