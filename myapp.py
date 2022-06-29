@@ -30,7 +30,7 @@ right_column.plotly_chart(fig2, use_container_width=True)
 
 st.dataframe(df)
 
-# -------------- Sidebar
+# -------------- Sidebar (don't actually "work")
 st.sidebar.header("Please Filter Here:")
 region = st.sidebar.multiselect(
     "Select the City:",
