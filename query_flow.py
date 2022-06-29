@@ -33,10 +33,6 @@ class ITPredictor(Executor):
 
     @requests(on="/predict")
     def predict(self, docs: DocumentArray, **kwargs):
-        # usually documentarray would be sent to this route, but in this app this executor will load docs from documentarray we already have saved at INDEX_PATH.
-        # INDEX_PATH location is given as parameter when it is defined in Flow (i.e., "uses_with=").
-        print("[INFO] at predict route...")
-
         da_predictions = []
         for d in self.indexes["docarray"]:
             if d.matches[0].tags.get("known_label") == 0:
