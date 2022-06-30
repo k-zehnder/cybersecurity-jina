@@ -1,5 +1,6 @@
+import pandas as pd
 from docarray import Document, DocumentArray
-from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
+from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score, confusion_matrix
 
 
 index = DocumentArray.load("./index")
@@ -63,3 +64,15 @@ print('F1 score: %f' % f1)
 # Recall: 0.958564
 # F1 score: 0.957241
 
+# Calculate per class accuracy
+cmd = confusion_matrix(y_test, yhat, normalize="true").diagonal()
+per_class_accuracy_df = pd.DataFrame([(index, round(value,4)) for index, value in zip(['Benign', 'Attack'], cmd)], columns = ['type', 'accuracy'])
+per_class_accuracy_df = per_class_accuracy_df.round(2)
+print(per_class_accuracy_df)
+
+# dataset1--sqlite--per class:
+#      type  accuracy
+# 0  Benign      1.00
+# 1  Attack      0.97
+
+# dataset2--sqlite--per class:
