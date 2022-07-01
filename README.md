@@ -2,6 +2,7 @@
 
 This repo is a work in progress :)
 
+Waiiiiit for ittt.....
 ![wip](data/usage/try3.gif)
 
 ![wip](data/usage/embeddings_annotated.png)
