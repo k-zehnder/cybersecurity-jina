@@ -2,7 +2,7 @@
 
 This repo is a work in progress :)
 
-![wip](data/usage/demo.png)
+![wip](data/usage/try3.gif)
 
 ![wip](data/usage/embeddings_annotated.png)
 
