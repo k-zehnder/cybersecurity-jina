@@ -7,4 +7,4 @@ Waiiiiit for ittt.....
 
 ![wip](data/usage/embeddings_annotated.png)
 
-![wip](/data/usage/animated_demo.png)
+![wip](/data/usage/animated_demo.gif)
